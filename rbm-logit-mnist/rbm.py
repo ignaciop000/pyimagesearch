@@ -1,3 +1,7 @@
+# USAGE
+# python rbm.py --dataset data/digits.csv --test 0.4 --search 1
+
+# import the necessary packages
 from sklearn.cross_validation import train_test_split
 from sklearn.metrics import classification_report
 from sklearn.linear_model import LogisticRegression
@@ -9,14 +13,13 @@ import argparse
 import time
 import cv2
 
-
 def load_digits(datasetPath):
 	# build the dataset and then split it into data
 	# and labels
 	X = np.genfromtxt(datasetPath, delimiter = ",", dtype = "uint8")
 	y = X[:, 0]
 	X = X[:, 1:]
- 
+
 	# return a tuple of the data and targets
 	return (X, y)
 
@@ -32,23 +35,23 @@ def nudge(X, y):
 	translations = [(0, -1), (0, 1), (-1, 0), (1, 0)]
 	data = []
 	target = []
- 
+
 	# loop over each of the digits
 	for (image, label) in zip(X, y):
 		# reshape the image from a feature vector of 784 raw
 		# pixel intensities to a 28x28 'image'
 		image = image.reshape(28, 28)
- 
+
 		# loop over the translations
 		for (tX, tY) in translations:
 			# translate the image
 			M = np.float32([[1, 0, tX], [0, 1, tY]])
 			trans = cv2.warpAffine(image, M, (28, 28))
- 
+
 			# update the list of data and target
 			data.append(trans.flatten())
 			target.append(label)
- 
+
 	# return a tuple of the data matrix and targets
 	return (np.array(data), np.array(target))
 
@@ -69,7 +72,7 @@ args = vars(ap.parse_args())
 (X, y) = load_digits(args["dataset"])
 X = X.astype("float32")
 X = scale(X)
- 
+
 # construct the training/testing split
 (trainX, testX, trainY, testY) = train_test_split(X, y,
 	test_size = args["test"], random_state = 42)
@@ -83,24 +86,24 @@ if args["search"] == 1:
 	start = time.time()
 	gs = GridSearchCV(LogisticRegression(), params, n_jobs = -1, verbose = 1)
 	gs.fit(trainX, trainY)
- 
+
 	# print diagnostic information to the user and grab the
 	# best model
 	print "done in %0.3fs" % (time.time() - start)
 	print "best score: %0.3f" % (gs.best_score_)
 	print "LOGISTIC REGRESSION PARAMETERS"
 	bestParams = gs.best_estimator_.get_params()
- 
+
 	# loop over the parameters and print each of them out
 	# so they can be manually set
 	for p in sorted(params.keys()):
-		print "\t %s: %f" % (p, bestParams[p])	
+		print "\t %s: %f" % (p, bestParams[p])
 
 	# initialize the RBM + Logistic Regression pipeline
 	rbm = BernoulliRBM()
 	logistic = LogisticRegression()
 	classifier = Pipeline([("rbm", rbm), ("logistic", logistic)])
- 
+
 	# perform a grid search on the learning rate, number of
 	# iterations, and number of components on the RBM and
 	# C for Logistic Regression
@@ -110,25 +113,51 @@ if args["search"] == 1:
 		"rbm__n_iter": [20, 40, 80],
 		"rbm__n_components": [50, 100, 200],
 		"logistic__C": [1.0, 10.0, 100.0]}
- 
+
 	# perform a grid search over the parameter
 	start = time.time()
 	gs = GridSearchCV(classifier, params, n_jobs = -1, verbose = 1)
 	gs.fit(trainX, trainY)
- 
+
 	# print diagnostic information to the user and grab the
 	# best model
 	print "\ndone in %0.3fs" % (time.time() - start)
 	print "best score: %0.3f" % (gs.best_score_)
 	print "RBM + LOGISTIC REGRESSION PARAMETERS"
 	bestParams = gs.best_estimator_.get_params()
- 
+
 	# loop over the parameters and print each of them out
 	# so they can be manually set
 	for p in sorted(params.keys()):
 		print "\t %s: %f" % (p, bestParams[p])
- 
+
 	# show a reminder message
 	print "\nIMPORTANT"
 	print "Now that your parameters have been searched, manually set"
 	print "them and re-run this script with --search 0"
+
+# otherwise, use the manually specified parameters
+else:
+	# evaluate using Logistic Regression and only the raw pixel
+	# features (these parameters were cross-validated)
+	logistic = LogisticRegression(C = 1.0)
+	logistic.fit(trainX, trainY)
+	print "LOGISTIC REGRESSION ON ORIGINAL DATASET"
+	print classification_report(testY, logistic.predict(testX))
+
+	# initialize the RBM + Logistic Regression classifier with
+	# the cross-validated parameters
+	rbm = BernoulliRBM(n_components = 200, n_iter = 40,
+		learning_rate = 0.01,  verbose = True)
+	logistic = LogisticRegression(C = 1.0)
+
+	# train the classifier and show an evaluation report
+	classifier = Pipeline([("rbm", rbm), ("logistic", logistic)])
+	classifier.fit(trainX, trainY)
+	print "RBM + LOGISTIC REGRESSION ON ORIGINAL DATASET"
+	print classification_report(testY, classifier.predict(testX))
+
+	# nudge the dataset and then re-evaluate
+	print "RBM + LOGISTIC REGRESSION ON NUDGED DATASET"
+	(testX, testY) = nudge(testX, testY)
+	print classification_report(testY, classifier.predict(testX))
