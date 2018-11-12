@@ -4,3 +4,4 @@ pip install imutils
 pip install numpy
 pip install BeautifulSoup
 pip install requests
+pip install mahotas
