@@ -48,16 +48,16 @@ for name in names:
 		parsedName = "nidoran-m"
 
 	# construct the URL to download the sprite
-	print "[x] downloading %s" % (name)
+	print "[x] downloading %s" % (parsedName)
 	url = "http://img.pokemondb.net/sprites/red-blue/normal/%s.png" % (parsedName)
 	r = requests.get(url)
 
 	# if the status code is not 200, ignore the sprite
 	if r.status_code != 200:
-		print "[x] error downloading %s" % (name)
+		print "[x] error downloading %s" % (parsedName)
 		continue
 
 	# write the sprite to file
-	f = open("%s/%s.png" % (args["sprites"], name.lower()), "wb")
+	f = open("%s/%s.png" % (args["sprites"], parsedName.lower()), "wb")
 	f.write(r.content)
 	f.close()
