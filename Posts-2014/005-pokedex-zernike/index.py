@@ -8,6 +8,7 @@ import argparse
 import cPickle
 import glob
 import cv2
+import os
 
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
@@ -25,15 +26,16 @@ index = {}
 for spritePath in glob.glob(args["sprites"] + "/*.png"):
 	# parse out the pokemon name, then load the image and
 	# convert it to grayscale
-	pokemon = spritePath[spritePath.rfind("/") + 1:].replace(".png", "")
+	
+	j, k = os.path.split(spritePath)
+	pokemon = k.replace(".png", "")
 	image = cv2.imread(spritePath)
 	image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
 	# pad the image with extra white pixels to ensure the
 	# edges of the pokemon are not up against the borders
 	# of the image
-	image = cv2.copyMakeBorder(image, 15, 15, 15, 15,
-		cv2.BORDER_CONSTANT, value = 255)
+	image = cv2.copyMakeBorder(image, 15, 15, 15, 15, cv2.BORDER_CONSTANT, value = 255)
 
 	# invert the image and threshold it
 	thresh = cv2.bitwise_not(image)
@@ -43,7 +45,7 @@ for spritePath in glob.glob(args["sprites"] + "/*.png"):
 	# contours (the outline) of the pokemone, then draw
 	# it
 	outline = np.zeros(image.shape, dtype = "uint8")
-	(cnts, _) = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+	(_, cnts, _) = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 	cnts = sorted(cnts, key = cv2.contourArea, reverse = True)[0]
 	cv2.drawContours(outline, [cnts], -1, 255, -1)
 

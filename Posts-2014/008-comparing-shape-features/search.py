@@ -36,7 +36,7 @@ thresh = cv2.adaptiveThreshold(image, 255, cv2.ADAPTIVE_THRESH_MEAN_C,
 # contours (the outline) of the pokemon, then draw
 # it
 outline = np.zeros(image.shape, dtype = "uint8")
-(cnts, _) = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL,
+(_, cnts, _) = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL,
 	cv2.CHAIN_APPROX_SIMPLE)
 cnts = sorted(cnts, key = cv2.contourArea, reverse = True)[0]
 cv2.drawContours(outline, [cnts], -1, 255, -1)
