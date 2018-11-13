@@ -2,6 +2,9 @@
 # date: 14 January 2014
 # website: http://www.pyimagesearch.com
 
+# USAGE
+# python examples.py
+
 # import the necessary packages
 import cv2
 
