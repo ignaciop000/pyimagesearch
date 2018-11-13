@@ -57,12 +57,9 @@ def nudge(X, y):
 
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
-ap.add_argument("-d", "--dataset", required = True,
-	help = "path to the dataset file")
-ap.add_argument("-t", "--test", required = True, type = float,
-	help = "size of test split")
-ap.add_argument("-s", "--search", type = int, default = 0,
-	help = "whether or not a grid search should be performed")
+ap.add_argument("-d", "--dataset", required = True, help = "path to the dataset file")
+ap.add_argument("-t", "--test", required = True, type = float, help = "size of test split")
+ap.add_argument("-s", "--search", type = int, default = 0, help = "whether or not a grid search should be performed")
 args = vars(ap.parse_args())
 
 # load the digits dataset, convert the data points from integers

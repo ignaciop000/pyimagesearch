@@ -8,10 +8,8 @@ import requests
 
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
-ap.add_argument("-p", "--pokemon-list", required = True,
-	help = "Path to where the raw Pokemon HTML file resides")
-ap.add_argument("-s", "--sprites", required = True,
-	help = "Path where the sprites will be stored")
+ap.add_argument("-p", "--pokemon-list", required = True, help = "Path to where the raw Pokemon HTML file resides")
+ap.add_argument("-s", "--sprites", required = True, help = "Path where the sprites will be stored")
 args = vars(ap.parse_args())
 
 # construct the soup and initialize the list of pokemon

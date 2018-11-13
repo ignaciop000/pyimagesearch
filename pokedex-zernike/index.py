@@ -11,10 +11,8 @@ import cv2
 
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
-ap.add_argument("-s", "--sprites", required = True,
-	help = "Path where the sprites will be stored")
-ap.add_argument("-i", "--index", required = True,
-	help = "Path to where the index file will be stored")
+ap.add_argument("-s", "--sprites", required = True, help = "Path where the sprites will be stored")
+ap.add_argument("-i", "--index", required = True, help = "Path to where the index file will be stored")
 args = vars(ap.parse_args())
 
 # initialize our descriptor (Zernike Moments with a radius
