@@ -8,6 +8,7 @@ import numpy as np
 import argparse
 import glob
 import cv2
+import os
 
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
@@ -24,7 +25,7 @@ images = {}
 for imagePath in glob.glob(args["dataset"] + "/*.png"):
 	# extract the image filename (assumed to be unique) and
 	# load the image, updating the images dictionary
-	filename = imagePath[imagePath.rfind("/") + 1:]
+	_, filename = os.path.split(imagePath)		
 	image = cv2.imread(imagePath)
 	images[filename] = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
@@ -32,16 +33,17 @@ for imagePath in glob.glob(args["dataset"] + "/*.png"):
 	# using 8 bins per channel, normalize, and update
 	# the index
 	hist = cv2.calcHist([image], [0, 1, 2], None, [8, 8, 8],[0, 256, 0, 256, 0, 256])
-	hist = cv2.normalize(hist).flatten()
+	cv2.normalize(hist, hist)
+	hist = hist.flatten()	
 	index[filename] = hist
 
 # METHOD #1: UTILIZING OPENCV
 # initialize OpenCV methods for histogram comparison
 OPENCV_METHODS = (
-	("Correlation", cv2.cv.CV_COMP_CORREL),
-	("Chi-Squared", cv2.cv.CV_COMP_CHISQR),
-	("Intersection", cv2.cv.CV_COMP_INTERSECT), 
-	("Hellinger", cv2.cv.CV_COMP_BHATTACHARYYA))
+	("Correlation", cv2.HISTCMP_CORREL),
+	("Chi-Squared", cv2.HISTCMP_CHISQR),
+	("Intersection", cv2.HISTCMP_INTERSECT), 
+	("Hellinger", cv2.HISTCMP_BHATTACHARYYA))
 
 # loop over the comparison methods
 for (methodName, method) in OPENCV_METHODS:
