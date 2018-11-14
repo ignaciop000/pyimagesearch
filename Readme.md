@@ -7,3 +7,4 @@ pip install requests
 pip install mahotas
 pip install sklearn
 pip install scikit-image
+pip install nolearn

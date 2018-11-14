@@ -1,5 +1,5 @@
 # USAGE
-# python2.7 superpixel.py --image raptors.png
+# python superpixel.py --image raptors.png
 
 # import the necessary packages
 from skimage.segmentation import slic
