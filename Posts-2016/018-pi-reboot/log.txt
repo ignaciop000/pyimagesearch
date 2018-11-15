@@ -1,0 +1,26 @@
+INFO:root:[2016-04-18 15:23:58.722594] waiting for camera to warmup
+INFO:root:[2016-04-18 15:24:03.386490] alarm ON
+INFO:root:[2016-04-18 15:24:14.993542] alarm OFF
+INFO:root:[2016-04-18 15:24:15.612876] alarm ON
+INFO:root:[2016-04-18 15:24:18.308680] alarm OFF
+INFO:root:[2016-04-18 15:29:09.261439] waiting for camera to warmup
+INFO:root:[2016-04-18 15:29:31.651067] alarm ON
+INFO:root:[2016-04-18 15:29:35.597619] alarm OFF
+INFO:root:[2016-04-18 15:29:38.495484] alarm ON
+INFO:root:[2016-04-18 15:29:41.606724] alarm OFF
+INFO:root:[2016-04-18 15:29:45.761618] alarm ON
+INFO:root:[2016-04-18 15:29:48.850731] alarm OFF
+INFO:root:[2016-04-18 15:30:10.379214] alarm ON
+INFO:root:[2016-04-18 15:30:10.834420] alarm OFF
+INFO:root:[2016-04-18 15:32:36.271760] waiting for camera to warmup
+INFO:root:[2016-04-18 15:33:03.631294] alarm ON
+INFO:root:[2016-04-18 15:33:03.967994] alarm OFF
+INFO:root:[2016-04-18 15:33:04.404079] alarm ON
+INFO:root:[2016-04-18 15:33:09.489319] alarm OFF
+INFO:root:[2016-04-18 15:33:15.429344] alarm ON
+INFO:root:[2016-04-18 15:33:19.521836] alarm OFF
+INFO:root:[2016-04-18 15:33:22.247704] alarm ON
+INFO:root:[2016-04-18 15:33:25.621465] alarm OFF
+INFO:root:[2016-04-18 15:38:02.429781] alarm ON
+INFO:root:[2016-04-18 15:38:04.623383] alarm OFF
+INFO:root:[2016-04-18 15:38:26.851678] waiting for camera to warmup
