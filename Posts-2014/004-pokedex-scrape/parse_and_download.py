@@ -2,7 +2,7 @@
 # python parse_and_download.py --pokemon-list pokemon_list.html --sprites sprites
 
 # import the necessary packages
-from BeautifulSoup import BeautifulSoup
+from bs4 import BeautifulSoup
 import argparse
 import requests
 
@@ -48,13 +48,13 @@ for name in names:
 		parsedName = "nidoran-m"
 
 	# construct the URL to download the sprite
-	print "[x] downloading %s" % (parsedName)
+	print ("[x] downloading %s" % (parsedName))
 	url = "http://img.pokemondb.net/sprites/red-blue/normal/%s.png" % (parsedName)
 	r = requests.get(url)
 
 	# if the status code is not 200, ignore the sprite
 	if r.status_code != 200:
-		print "[x] error downloading %s" % (parsedName)
+		print ("[x] error downloading %s" % (parsedName))
 		continue
 
 	# write the sprite to file

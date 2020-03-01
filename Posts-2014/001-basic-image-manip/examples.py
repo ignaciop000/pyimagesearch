@@ -14,7 +14,7 @@ cv2.imshow("original", image)
 cv2.waitKey(0)
 
 # print the dimensions of the image
-print image.shape
+print (image.shape)
 
 # we need to keep in mind aspect ratio so the image does
 # not look skewed or distorted -- therefore, we calculate

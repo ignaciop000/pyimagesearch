@@ -59,7 +59,7 @@ for (chan, color) in zip(chans, colors):
 # normally not use 256 bins for each channel, a choice
 # between 32-96 bins are normally used, but this tends
 # to be application dependent
-print "flattened feature vector size: %d" % (np.array(features).flatten().shape)
+print ("flattened feature vector size: %d" % (np.array(features).flatten().shape))
 
 # let's move on to 2D histograms -- I am reducing the
 # number of bins in the histogram from 256 to 32 so we
@@ -89,7 +89,7 @@ plt.colorbar(p)
 
 # finally, let's examine the dimensionality of one of
 # the 2D histograms
-print "2D histogram shape: %s, with %d values" % (hist.shape, hist.flatten().shape[0])
+print ("2D histogram shape: %s, with %d values" % (hist.shape, hist.flatten().shape[0]))
 
 # our 2D histogram could only take into account 2 out
 # of the 3 channels in the image so now let's build a
@@ -98,7 +98,7 @@ print "2D histogram shape: %s, with %d values" % (hist.shape, hist.flatten().sha
 # the theory is exactly like that of a 2D histogram, so
 # we'll just show the shape of the histogram
 hist = cv2.calcHist([image], [0, 1, 2], None, [8, 8, 8], [0, 256, 0, 256, 0, 256])
-print "3D histogram shape: %s, with %d values" % (hist.shape, hist.flatten().shape[0])
+print ("3D histogram shape: %s, with %d values" % (hist.shape, hist.flatten().shape[0]))
 
 # show the figures and wait for a keypress
 plt.show()
